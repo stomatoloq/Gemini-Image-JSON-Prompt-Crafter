@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Image JSON Prompt Crafter</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .input-base { width: 100%; border-radius: 0.375rem; border: 1px solid #d1d5db; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); padding: 0.5rem; font-size: 0.875rem; background-color: white; }
+        .input-base:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
+        .checkbox-base { width: 1rem; height: 1rem; color: #3b82f6; border-radius: 0.25rem; border: 1px solid #d1d5db; }
+        .warning-box { background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; }
+        .section-disabled { opacity: 0.55; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <div><a href="https://stomatoloq.az/ferid-zeynalov.html" target="_blank">Dr. Fərid Zeynalov</a> - Baku, Azerbaijan.
+                <h1 class="text-3xl font-bold text-gray-900">Gemini Image JSON Prompt Crafter</h1>
+                <p class="text-gray-600 mt-1">Design and export structural prompts for Gemini image generation.<br><a href="instruction.html" style="color:#f97316">📖 Need help? <b>See Instruction of Use</b></a>.</p>
+            </div>
+            <button id="reset-btn" class="bg-gray-200 text-gray-800 px-4 py-2 rounded shadow hover:bg-gray-300 transition text-sm font-semibold shrink-0">
+                Reset Form
+            </button>
+        </header>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Form Column -->
+            <div class="lg:col-span-7 space-y-6">
+                <form id="crafter-form" class="space-y-6" onsubmit="event.preventDefault()">
+                    <!-- Subject & Scene -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="subjectScene">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Subject & Scene</h2>
+                            <span class="text-xs font-semibold uppercase tracking-wide text-blue-700 bg-blue-50 px-2 py-1 rounded">Required</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Describe what must be shown. Main subject sets the core focus, and scene details define environment, context, and supporting elements.</p>
+                        <div class="space-y-4 section-content">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="subject">Main subject <span class="text-red-500">*</span></label>
+                                <textarea id="subject" data-path="subject" rows="2" class="input-base" placeholder="Describe the main subject..." required></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="sceneDescription">Additional scene details</label>
+                                <textarea id="sceneDescription" data-path="sceneDescription" rows="2" class="input-base" placeholder="Environment, setting, context..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Style & Mood -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="styleMood">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Style & Mood</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="styleMood" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Style controls the visual technique (photo, painting, anime, etc.). Mood controls emotional tone, atmosphere, and narrative feeling.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 section-content">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="style">Style</label>
+                                <select id="style" data-path="style" class="input-base"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="mood">Mood</label>
+                                <select id="mood" data-path="mood" class="input-base"></select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Camera -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="camera">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Camera</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="camera" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Shot sets framing, motion suggests camera movement energy, and lens/perspective defines spatial distortion and viewing distance.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 section-content">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="camera-shot">Shot</label>
+                                <select id="camera-shot" data-path="camera.shot" class="input-base"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="camera-motion">Motion</label>
+                                <select id="camera-motion" data-path="camera.motion" class="input-base"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="camera-lens">Lens</label>
+                                <select id="camera-lens" data-path="camera.lens" class="input-base"></select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Lighting & Quality -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="lightingQuality">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Lighting & Quality</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="lightingQuality" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Lighting defines time, contrast, and mood of illumination. Quality options set rendering fidelity, sharpness detail level, and upscale behavior.</p>
+                        <div class="section-content">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="lighting">Lighting</label>
+                                <select id="lighting" data-path="lighting" class="input-base"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="quality-resolution">Resolution</label>
+                                <select id="quality-resolution" data-path="quality.resolution" class="input-base"></select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="quality-detail">Detail</label>
+                                <select id="quality-detail" data-path="quality.detail" class="input-base"></select>
+                            </div>
+                            <div class="flex items-center pt-6">
+                                <input type="checkbox" id="quality-upscale" data-path="quality.upscale" class="checkbox-base">
+                                <label for="quality-upscale" class="ml-2 text-sm text-gray-700">Upscale Image</label>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Color -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="color">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Color</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="color" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Palette chooses core color relationships and saturation intent. Grading applies cinematic post-processing character and final tonal treatment.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 section-content">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="color-palette">Palette</label>
+                                <select id="color-palette" data-path="color.palette" class="input-base"></select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1" for="color-grading">Grading</label>
+                                <select id="color-grading" data-path="color.grading" class="input-base"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Composition -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="composition">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Composition</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="composition" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Composition toggles visual structure aids: rule of thirds for balance, leading lines for direction, and depth for stronger foreground-background separation.</p>
+                        <div class="flex flex-wrap gap-6 section-content">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="comp-rule" data-path="composition.ruleOfThirds" class="checkbox-base">
+                                <label for="comp-rule" class="ml-2 text-sm text-gray-700">Rule of Thirds</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="comp-lines" data-path="composition.leadingLines" class="checkbox-base">
+                                <label for="comp-lines" class="ml-2 text-sm text-gray-700">Leading Lines</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="comp-depth" data-path="composition.depth" class="checkbox-base">
+                                <label for="comp-depth" class="ml-2 text-sm text-gray-700">Depth of Field</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Negative Prompt -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" data-section="negativePrompt">
+                        <div class="flex items-center justify-between mb-2 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Negative Constraints</h2>
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                <input type="checkbox" class="checkbox-base section-toggle" data-section-key="negativePrompt" checked>
+                                Include
+                            </label>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">List unwanted artifacts, objects, styles, or defects so the model avoids them during image generation. For example: <i>extra fingers, lowres, blurry, watermark, text, deformed, bad anatomy, cropped</i></p>
+                        <div class="section-content">
+                            <label class="block text-sm font-medium text-gray-700 mb-1" for="negativePrompt">Negative Prompt</label>
+                            <textarea id="negativePrompt" data-path="negativePrompt" rows="2" class="input-base" placeholder="Things that must not appear..."></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Outputs Column -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="sticky top-6 space-y-6">
+                    
+                    <div id="errors-container" class="hidden"></div>
+                    <div id="warnings-container" class="hidden"></div>
+
+                    <!-- Master Prompt -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Master Prompt</h2>
+                            <button id="copy-prompt-btn" class="text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded transition font-medium">Copy Text</button>
+                        </div>
+                        <textarea id="master-prompt-out" class="w-full h-32 p-3 bg-gray-50 border border-gray-200 rounded-md text-sm text-gray-800 resize-none focus:outline-none" readonly></textarea>
+                    </div>
+                    
+                    <!-- JSON Output -->
+                    <div class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">JSON Output</h2>
+                            <div class="flex gap-2">
+                                <button id="copy-json-btn" class="text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 px-3 py-1 rounded transition font-medium">Copy JSON</button>
+                                <button id="export-json-btn" class="text-sm bg-green-50 text-green-700 hover:bg-green-100 px-3 py-1 rounded transition font-medium">Export File</button>
+                            </div>
+                        </div>
+                        <pre id="json-output-block" class="w-full h-80 p-4 bg-gray-900 text-green-400 rounded-md text-sm overflow-auto font-mono"></pre>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const schemaData = {
+            styles: ["3d_render", "abstract_art", "acrylic_on_canvas", "aerial_drone_photography", "analog_film", "anime", "anime_manga", "architectural_sketch", "biomechanical_hr_giger", "blueprint", "bokeh", "cel_shaded", "cgi_architecture", "charcoal_sketch", "childrens_book_illustration", "cinematic", "comic_book_style", "concept_art", "cutaway_diagram", "cyberpunk", "dark_fantasy", "digital_art", "digital_painting", "disney_pixar_3d_style", "editorial", "etching", "expressionism", "fantasy", "flat_design", "fresco", "glitch_art", "gothic_art", "gouache", "graffiti_street_art", "hyperrealistic", "illustration", "impressionism", "infographic_style", "ink_drawing", "interior_design_visualization", "isometric_view", "knolling", "logo_design", "long_exposure", "low_poly", "macro_photography", "minimalism", "minimalist", "national_geographic_style", "noir_film_noir", "octane_render", "oil_painting", "pencil_sketch", "photorealistic", "pixel_art", "pointillism", "polaroid", "pop_art", "portrait_photography", "product_mockup", "psychedelic_art", "renaissance_art", "retro", "sci_fi", "steampunk", "storyboard", "street_photography", "studio_ghibli_style", "surrealism", "synthwave_retrowave", "typography_art", "ukiyo_e", "unreal_engine_5_style", "vector_art", "vintage_poster", "voxel_art", "watercolor", "wildlife_photography"],
+            moods: ["ancient", "awe_inspiring", "chaotic", "dystopian", "epic", "futuristic", "grand", "gritty", "heroic", "intimate", "majestic", "minimalist", "orderly", "playful", "provocative", "serious", "sophisticated", "surreal", "tranquil", "utopian"],
+            shots: ["aerial_shot", "birds_eye_view", "close_up", "cowboy_shot", "dutch_angle", "establishing_shot", "extreme_close_up", "extreme_long_shot", "eye_level_shot", "full_shot", "ground_level_shot", "high_angle_shot", "long_shot", "low_angle_shot", "medium_close_up", "medium_shot", "over_the_shoulder_shot", "panoramic_shot", "point_of_view_shot_pov", "profile_shot", "side_view", "tilted_frame", "two_shot", "wide_angle_shot", "worms_eye_view"],
+            motions: ["static", "slight-pan", "slow-push-in", "handheld", "none"],
+            lenses: ["1_point_perspective", "2_point_perspective", "3_point_perspective", "aerial_perspective", "anamorphic_perspective", "curvilinear_perspective", "dramatic_perspective", "fisheye_perspective", "forced_perspective", "isometric", "natural_perspective", "orthographic", "parallel_projection", "telephoto_like", "wide_angle_perspective", "close_up", "extreme_close_up", "extreme_long_distance", "far_distance", "intermediate_distance", "long_distance", "macro_distance", "medium_distance", "mid_range", "panoramic_distance", "ultra_wide_distance", "very_close_up", "very_far_distance"],
+            lightings: ["blue_hour", "bright", "cinematic", "dark", "dramatic", "dull", "eerie", "golden_hour", "harsh", "high_contrast", "low_contrast", "moody", "muted", "natural", "neon_electric", "soft", "somber", "uplifting", "vibrant"],
+            resolutions: ["2k", "4k", "6k", "ambient_occlusion", "anamorphic_lens_flare", "anti_aliasing", "bloom_effect", "caustics", "cinematic_lighting", "depth_of_field_bokeh", "diffuse_reflection", "global_illumination", "high_detail", "high_dynamic_range_hdr", "flat", "motion_blur", "octane_render", "quixel_megascans_texture", "ray_tracing", "realistic", "semi_realistic", "photorealistic", "soft", "soft_shadows", "stylized", "subsurface_scattering", "tessellation", "unreal_engine_5_style", "v_ray_style", "volumetric_lighting"],
+            details: ["anatomic-accuracy", "architectural-structural-detail", "atmospheric-precision", "baroque-ornamentation", "cinematic-grain-detail", "cyberpunk-clutter", "deep-depth-of-field", "extreme-close-up-clarity", "fractal-geometric-detail", "high-fidelity", "highly-defined-edges", "hyper-realistic-textures", "insane-detail-rendering", "intricate-filigree", "low-fidelity", "macro-lens-detail", "masterpiece-quality", "maximalist-clutter", "medium-fidelity", "microscopic-detail", "minimalist-clean-lines", "ornate-complexity", "photorealistic-precision", "pixel-perfect-clarity", "polished-reflective-finish", "raw-authentic-texture", "ray-traced-global-illumination", "schematic-line-work", "shallow-depth-of-field-bokeh", "sharp-focus", "soft-ethereal-detail", "subsurface-scattering", "technical-blueprint-precision", "ultra-high-definition-8k", "volumetric-particle-detail", "weathered-distressed-texture"],
+            palettes: ["acid-green-and-neon", "analogous", "autumn-harvest-warmth", "bioluminescent-glow", "black-and-white-noir", "candy-pastel", "chillwave-aesthetic", "chromatic-aberration-tint", "cold-clinical-blue", "complementary", "cool-tones", "cyberpunk-neon", "deep-forest-greens", "desert-sand-and-gold", "duo-tone", "earthy-tones", "electric-high-contrast", "faded-polaroid", "grayscale", "high-key-bright", "industrial-metallic", "infrared-spectrum", "low-key-dark-moody", "monochrome", "muted-desaturated", "neutral", "oceanic-teal-and-aquamarine", "opal-iridescent", "pastel-dreamscape", "retro-vintage", "royal-gold-and-velvet", "sepia", "soft-natural-light", "split-complementary", "synthwave-gradient", "technicolor-vibrancy", "tetradic-richness", "triadic", "vibrant-saturated", "warm-tones", "washed-out-watercolor"],
+            gradings: ["bleach-bypass", "california-warm-glow", "cinematic-teal-and-orange", "cross-processed", "dark-nordic-mood", "day-for-night", "dramatic-chiaroscuro", "faded-vintage-film", "film-like", "film-noir-monochrome", "golden-hour-warmth", "high-contrast", "high-dynamic-range-hdr", "high-key-exposure", "hollywood-blockbuster", "kodachrome-vintage", "low-contrast-faded", "low-key-exposure", "matinee-saturation", "matte-finish", "muted-earthy-grading", "national-geographic-style", "neon-noir-aesthetic", "overexposed-ethereal", "pastel", "polaroid-instant-film", "retro-70s-saturation", "rich-velvet-tones", "sepia-nostalgia", "silver-gelatin-print", "soft-bloom-diffusion", "technicolor-vivid", "underexposed-moody", "vibrant-commercial", "washed-out-summer"]
+        };
+
+        const defaultState = {
+            subject: "",
+            sceneDescription: "",
+            style: "photorealistic",
+            mood: "tranquil",
+            camera: {
+                shot: "medium_shot",
+                motion: "static",
+                lens: "natural_perspective"
+            },
+            lighting: "soft",
+            composition: {
+                ruleOfThirds: true,
+                leadingLines: false,
+                depth: true
+            },
+            quality: {
+                resolution: "2k",
+                detail: "medium-fidelity",
+                upscale: false
+            },
+            color: {
+                palette: "neutral",
+                grading: "film-like"
+            },
+            negativePrompt: "logo, text, watermark"
+        };
+        
+        let state = JSON.parse(JSON.stringify(defaultState));
+        const defaultSectionState = {
+            subjectScene: true,
+            styleMood: true,
+            camera: true,
+            lightingQuality: true,
+            color: true,
+            composition: true,
+            negativePrompt: true
+        };
+        let sectionState = { ...defaultSectionState };
+
+        function getNestedVal(obj, path) {
+            return path.split('.').reduce((acc, part) => acc && acc[part], obj);
+        }
+
+        function setNestedVal(obj, path, value) {
+            const parts = path.split('.');
+            let current = obj;
+            for (let i = 0; i < parts.length - 1; i++) {
+                if (!current[parts[i]]) current[parts[i]] = {};
+                current = current[parts[i]];
+            }
+            current[parts[parts.length - 1]] = value;
+        }
+
+        function formatLabel(val) {
+            if (typeof val !== 'string') return val;
+            return val.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function populateSelect(id, list, selected) {
+            const el = document.getElementById(id);
+            el.innerHTML = '';
+            list.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item;
+                opt.textContent = formatLabel(item);
+                if (item === selected) opt.selected = true;
+                el.appendChild(opt);
+            });
+        }
+
+        function getEffectiveState() {
+            const output = {
+                subject: state.subject || "",
+                sceneDescription: state.sceneDescription || ""
+            };
+
+            if (sectionState.styleMood) {
+                output.style = state.style;
+                output.mood = state.mood;
+            }
+            if (sectionState.camera) {
+                output.camera = JSON.parse(JSON.stringify(state.camera));
+            }
+            if (sectionState.lightingQuality) {
+                output.lighting = state.lighting;
+                output.quality = JSON.parse(JSON.stringify(state.quality));
+            }
+            if (sectionState.composition) {
+                output.composition = JSON.parse(JSON.stringify(state.composition));
+            }
+            if (sectionState.color) {
+                output.color = JSON.parse(JSON.stringify(state.color));
+            }
+            if (sectionState.negativePrompt) {
+                output.negativePrompt = state.negativePrompt || "";
+            }
+
+            return output;
+        }
+
+        function validateState(effectiveState) {
+            const errors = [];
+            if (!effectiveState.subject || !effectiveState.subject.trim()) {
+                errors.push("Subject is required and cannot be empty.");
+            }
+
+            const errorContainer = document.getElementById('errors-container');
+            if (errors.length > 0) {
+                errorContainer.innerHTML = errors.map(err => `<div class="warning-box" style="background:#fff7ed;border-left-color:#f97316;"><strong style="color:#c2410c;">Validation:</strong> <span style="color:#9a3412;">${err}</span></div>`).join('');
+                errorContainer.classList.remove('hidden');
+            } else {
+                errorContainer.innerHTML = '';
+                errorContainer.classList.add('hidden');
+            }
+
+            return errors;
+        }
+
+        function syncSectionInteractivity() {
+            document.querySelectorAll('[data-section]').forEach(sectionEl => {
+                const sectionKey = sectionEl.dataset.section;
+                const enabled = !!sectionState[sectionKey];
+                const content = sectionEl.querySelector('.section-content');
+                if (content) {
+                    content.classList.toggle('section-disabled', !enabled);
+                }
+
+                sectionEl.querySelectorAll('[data-path]').forEach(control => {
+                    control.disabled = !enabled;
+                });
+            });
+        }
+
+        function checkWarnings(effectiveState) {
+            const warnings = [];
+            const camera = effectiveState.camera;
+            const lighting = effectiveState.lighting;
+            const quality = effectiveState.quality;
+            const color = effectiveState.color;
+            const style = effectiveState.style;
+            const mood = effectiveState.mood;
+
+            if (camera && (camera.shot === "close_up" || camera.shot === "extreme_close_up") && camera.lens === "very_far_distance") {
+                warnings.push("Close-up framing conflicts with a very far viewing distance.");
+            }
+            if (lighting === "neon_electric" && color && color.palette === "soft-natural-light") {
+                warnings.push("Natural sunlight (palette) and neon/cyberpunk lighting are typically contradictory.");
+            }
+            if (lighting === "soft" && color && color.grading === "high-contrast") {
+                warnings.push("Soft lighting conflicts with dramatic, high-contrast grading.");
+            }
+            if (lighting === "dark" && color && color.palette === "vibrant-saturated") {
+                warnings.push("Dark lighting usually desaturates colors, conflicting with a vibrant palette.");
+            }
+            if (camera && camera.shot === "panoramic_shot" && camera.lens === "macro_distance") {
+                warnings.push("Macro detail focus and panoramic wide-angle perspectives are optically incompatible.");
+            }
+            if (style === "photorealistic" && quality && quality.resolution === "flat") {
+                warnings.push("Photorealistic styles and flat rendering techniques are aesthetically contradictory.");
+            }
+            if (quality && quality.detail === "ornate-complexity" && style === "minimalist") {
+                warnings.push("Highly ornate textures conflict with a clean minimalist visual emphasis.");
+            }
+            if (color && color.palette === "retro-vintage" && (mood === "dystopian" || style === "cyberpunk")) {
+                warnings.push("Retro/vintage color grading often conflicts with the high-tech neon aesthetic of cyberpunk/dystopia.");
+            }
+            
+            const warnContainer = document.getElementById('warnings-container');
+            if (warnings.length > 0) {
+                warnContainer.innerHTML = warnings.map(w => `<div class="warning-box"><strong class="text-red-700">Warning:</strong> <span class="text-red-600">${w}</span></div>`).join('');
+                warnContainer.classList.remove('hidden');
+            } else {
+                warnContainer.innerHTML = '';
+                warnContainer.classList.add('hidden');
+            }
+        }
+
+        function updateOutputs() {
+            const effectiveState = getEffectiveState();
+            validateState(effectiveState);
+
+            // Master Prompt
+            let parts = [];
+            if (effectiveState.subject) parts.push(effectiveState.subject);
+            if (effectiveState.sceneDescription) parts.push(effectiveState.sceneDescription);
+            if (effectiveState.style) parts.push(`Style: ${formatLabel(effectiveState.style)}`);
+            if (effectiveState.mood) parts.push(`Mood: ${formatLabel(effectiveState.mood)}`);
+            if (effectiveState.camera) {
+                parts.push(`Camera: ${formatLabel(effectiveState.camera.shot)}, ${formatLabel(effectiveState.camera.lens)} lens, ${formatLabel(effectiveState.camera.motion)} motion`);
+            }
+            if (effectiveState.lighting) parts.push(`Lighting: ${formatLabel(effectiveState.lighting)}`);
+            
+            let comp = [];
+            if (effectiveState.composition?.ruleOfThirds) comp.push("rule of thirds");
+            if (effectiveState.composition?.leadingLines) comp.push("leading lines");
+            if (effectiveState.composition?.depth) comp.push("depth of field");
+            if (comp.length > 0) parts.push(`Composition: ${comp.join(", ")}`);
+            
+            if (effectiveState.quality) {
+                parts.push(`Quality: ${formatLabel(effectiveState.quality.resolution)}, ${formatLabel(effectiveState.quality.detail)}${effectiveState.quality.upscale ? ', upscaled' : ''}`);
+            }
+            if (effectiveState.color) {
+                parts.push(`Color: ${formatLabel(effectiveState.color.palette)} palette, ${formatLabel(effectiveState.color.grading)} grading`);
+            }
+            if (effectiveState.negativePrompt) parts.push(`Negative constraints: ${effectiveState.negativePrompt}`);
+            
+            document.getElementById('master-prompt-out').value = parts.join(" | ");
+            
+            document.getElementById('json-output-block').textContent = JSON.stringify(effectiveState, null, 4);
+            
+            checkWarnings(effectiveState);
+        }
+
+        function initApp() {
+            // Restore last draft for better resilience between refreshes.
+            try {
+                const savedState = localStorage.getItem('geminiPromptCrafter_state');
+                const savedSections = localStorage.getItem('geminiPromptCrafter_sections');
+                if (savedState) state = { ...state, ...JSON.parse(savedState) };
+                if (savedSections) sectionState = { ...sectionState, ...JSON.parse(savedSections), subjectScene: true };
+            } catch (e) {
+                // Ignore malformed storage and continue with defaults.
+            }
+
+            populateSelect('style', schemaData.styles, state.style);
+            populateSelect('mood', schemaData.moods, state.mood);
+            populateSelect('camera-shot', schemaData.shots, state.camera.shot);
+            populateSelect('camera-motion', schemaData.motions, state.camera.motion);
+            populateSelect('camera-lens', schemaData.lenses, state.camera.lens);
+            populateSelect('lighting', schemaData.lightings, state.lighting);
+            populateSelect('quality-resolution', schemaData.resolutions, state.quality.resolution);
+            populateSelect('quality-detail', schemaData.details, state.quality.detail);
+            populateSelect('color-palette', schemaData.palettes, state.color.palette);
+            populateSelect('color-grading', schemaData.gradings, state.color.grading);
+            
+            document.querySelectorAll('[data-path]').forEach(el => {
+                const val = getNestedVal(state, el.dataset.path);
+                if (el.type === 'checkbox') {
+                    el.checked = val;
+                } else {
+                    el.value = val || '';
+                }
+                
+                el.addEventListener('input', (e) => {
+                    const value = el.type === 'checkbox' ? el.checked : el.value;
+                    setNestedVal(state, el.dataset.path, value);
+                    localStorage.setItem('geminiPromptCrafter_state', JSON.stringify(state));
+                    updateOutputs();
+                });
+            });
+
+            document.querySelectorAll('.section-toggle').forEach(toggle => {
+                const sectionKey = toggle.dataset.sectionKey;
+                toggle.checked = !!sectionState[sectionKey];
+                toggle.addEventListener('change', () => {
+                    sectionState[sectionKey] = toggle.checked;
+                    localStorage.setItem('geminiPromptCrafter_sections', JSON.stringify(sectionState));
+                    syncSectionInteractivity();
+                    updateOutputs();
+                });
+            });
+            
+            syncSectionInteractivity();
+            updateOutputs();
+            
+            // Buttons
+            document.getElementById('reset-btn').addEventListener('click', () => {
+                state = JSON.parse(JSON.stringify(defaultState));
+                sectionState = { ...defaultSectionState };
+                document.querySelectorAll('[data-path]').forEach(el => {
+                    const val = getNestedVal(state, el.dataset.path);
+                    if (el.type === 'checkbox') el.checked = val;
+                    else el.value = val || '';
+                });
+                document.querySelectorAll('.section-toggle').forEach(toggle => {
+                    const sectionKey = toggle.dataset.sectionKey;
+                    toggle.checked = !!sectionState[sectionKey];
+                });
+                localStorage.setItem('geminiPromptCrafter_state', JSON.stringify(state));
+                localStorage.setItem('geminiPromptCrafter_sections', JSON.stringify(sectionState));
+                syncSectionInteractivity();
+                updateOutputs();
+            });
+            
+            document.getElementById('copy-prompt-btn').addEventListener('click', () => {
+                const copyText = document.getElementById('master-prompt-out').value;
+                navigator.clipboard.writeText(copyText).then(() => {
+                    const btn = document.getElementById('copy-prompt-btn');
+                    const origText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = origText, 2000);
+                });
+            });
+            
+            document.getElementById('copy-json-btn').addEventListener('click', () => {
+                const copyText = document.getElementById('json-output-block').textContent;
+                navigator.clipboard.writeText(copyText).then(() => {
+                    const btn = document.getElementById('copy-json-btn');
+                    const origText = btn.textContent;
+                    btn.textContent = 'Copied!';
+                    setTimeout(() => btn.textContent = origText, 2000);
+                });
+            });
+            
+            document.getElementById('export-json-btn').addEventListener('click', () => {
+                const data = document.getElementById('json-output-block').textContent;
+                const blob = new Blob([data], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "gemini-image-prompt.json";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

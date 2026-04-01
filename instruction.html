@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Image JSON Prompt Crafter - Instructions</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .input-base { width: 100%; border-radius: 0.375rem; border: 1px solid #d1d5db; box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05); padding: 0.5rem; font-size: 0.875rem; background-color: white; }
+        .input-base:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); }
+        .checkbox-base { width: 1rem; height: 1rem; color: #3b82f6; border-radius: 0.25rem; border: 1px solid #d1d5db; }
+        .warning-box { background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 0.75rem; margin-bottom: 0.75rem; border-radius: 0.25rem; font-size: 0.875rem; }
+        .mono-box { background: #111827; color: #34d399; border-radius: 0.375rem; padding: 0.75rem; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.75rem; overflow: auto; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <div><a href="https://stomatoloq.az/ferid-zeynalov.html" target="_blank">Dr. Fərid Zeynalov</a> - Baku, Azerbaijan.
+                <h1 class="text-3xl font-bold text-gray-900">Gemini Image JSON Prompt Crafter</h1>
+                <p class="text-gray-600 mt-1">Complete user guide for beginners: sections, options, functions, and examples</p>
+            </div>
+            <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition text-sm font-semibold shrink-0 text-center">
+                Open Generator
+            </a>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-7 space-y-6">
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <div class="mb-3 border-b pb-2">
+                        <h2 class="text-xl font-semibold text-gray-800">Quick Start</h2>
+                    </div>
+                    <p class="text-sm text-gray-700 mb-3">This generator creates JSON prompts for image generation. Fill in fields from top to bottom, and the app updates both output blocks in real time.</p>
+                    <ol class="text-sm text-gray-700 list-decimal pl-5 space-y-1">
+                        <li>Describe your <strong>subject</strong> and <strong>scene</strong> first (required).</li>
+                        <li>Choose style, mood, camera, lighting, quality, color, and composition.</li>
+                        <li>Disable any optional section with its Include checkbox if you do not want it in JSON.</li>
+                        <li>Review warnings, then copy/export your final JSON.</li>
+                    </ol>
+                </section>
+
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100" id="section-guide">
+                    <div class="mb-3 border-b pb-2">
+                        <h2 class="text-xl font-semibold text-gray-800">Section-by-Section Guide</h2>
+                    </div>
+                    <div class="space-y-4 text-sm text-gray-700">
+                        <div>
+                            <h3 class="font-semibold text-gray-900">1. Subject & Scene (Required)</h3>
+                            <p>Main subject defines the central object or character. Scene description adds context: place, background, atmosphere, supporting elements, and action.</p>
+                            <p class="mt-1"><strong>Example:</strong> Subject: "A red fox". Scene: "standing on a snowy cliff at sunrise with distant mountains".</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">2. Style & Mood (Optional, can be disabled)</h3>
+                            <p>Style controls artistic language (photography, anime, painting, 3D render). Mood controls emotion (calm, epic, dystopian, playful).</p>
+                            <p class="mt-1"><strong>Tip:</strong> If your image intent is technical only, you can disable this section.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">3. Camera (Optional)</h3>
+                            <p>Shot chooses framing. Motion adds cinematic movement feel. Lens/perspective defines visual geometry and distance behavior.</p>
+                            <p class="mt-1"><strong>Example:</strong> close_up + static + macro_distance for product-detail images.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">4. Lighting & Quality (Optional)</h3>
+                            <p>Lighting sets illumination mood and contrast. Quality affects technical polish (resolution), detail complexity, and optional upscaling.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">5. Color (Optional)</h3>
+                            <p>Palette controls color harmony and temperature. Grading applies post-processing look such as cinematic, vintage, noir, HDR.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">6. Composition (Optional)</h3>
+                            <p>Toggle compositional aids: rule of thirds, leading lines, depth. Useful when you want more intentional image structure.</p>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold text-gray-900">7. Negative Constraints (Optional)</h3>
+                            <p>Enter things that must not appear: text overlays, logos, watermarks, artifacts, extra limbs, blur, noise, etc.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <div class="mb-3 border-b pb-2">
+                        <h2 class="text-xl font-semibold text-gray-800">All Options Explained</h2>
+                    </div>
+                    <p class="text-sm text-gray-700 mb-4">Every selectable option from the generator is listed below with plain-English meaning. Use the search box to quickly filter options.</p>
+                    <input id="option-filter" class="input-base mb-4" type="text" placeholder="Search options, for example: cinematic, macro, neon">
+                    <div class="space-y-3" id="option-catalog"></div>
+                </section>
+
+                <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                    <div class="mb-3 border-b pb-2">
+                        <h2 class="text-xl font-semibold text-gray-800">Built-in Functions</h2>
+                    </div>
+                    <div class="space-y-3 text-sm text-gray-700">
+                        <p><strong>Live JSON Sync:</strong> Every field change instantly updates Master Prompt and JSON Output without page reload.</p>
+                        <p><strong>Section Include Toggles:</strong> Optional sections can be turned off. Off means fields are disabled and removed from output JSON.</p>
+                        <p><strong>Required Subject & Scene:</strong> Always included. Cannot be disabled.</p>
+                        <p><strong>Validation:</strong> Subject must not be empty. If empty, the app shows a validation message.</p>
+                        <p><strong>Conflict Warnings:</strong> The app warns about contradictory choices (for example close-up with very-far lens distance).</p>
+                        <p><strong>Copy Text / Copy JSON:</strong> Sends output directly to clipboard.</p>
+                        <p><strong>Export File:</strong> Downloads the current JSON as <code>gemini-image-prompt.json</code>.</p>
+                        <p><strong>Reset Form:</strong> Restores default values and re-enables all optional sections.</p>
+                        <p><strong>Draft Persistence:</strong> State is auto-saved in local browser storage and restored on next page load.</p>
+                    </div>
+                </section>
+            </div>
+
+            <div class="lg:col-span-5 space-y-6">
+                <div class="sticky top-6 space-y-6">
+                    <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="mb-3 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Example 1: Nature Photo</h2>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">A realistic wildlife-style setup with balanced composition and clean negatives.</p>
+                        <pre class="mono-box">{
+  "subject": "Snow leopard",
+  "sceneDescription": "on a rocky ridge in high mountains during sunrise mist",
+  "style": "wildlife_photography",
+  "mood": "majestic",
+  "camera": {
+    "shot": "long_shot",
+    "motion": "static",
+    "lens": "telephoto_like"
+  },
+  "lighting": "golden_hour",
+  "composition": {
+    "ruleOfThirds": true,
+    "leadingLines": true,
+    "depth": true
+  },
+  "quality": {
+    "resolution": "4k",
+    "detail": "photorealistic-precision",
+    "upscale": false
+  },
+  "color": {
+    "palette": "cool-tones",
+    "grading": "national-geographic-style"
+  },
+  "negativePrompt": "logo, text, watermark"
+}</pre>
+                    </section>
+
+                    <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="mb-3 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Example 2: Stylized Sci-Fi</h2>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">A synthetic cyberpunk setup with neon light, dynamic perspective, and bold grading.</p>
+                        <pre class="mono-box">{
+  "subject": "A courier on a hoverbike",
+  "sceneDescription": "racing through a rain-soaked megacity alley",
+  "style": "cyberpunk",
+  "mood": "futuristic",
+  "camera": {
+    "shot": "dutch_angle",
+    "motion": "handheld",
+    "lens": "wide_angle_perspective"
+  },
+  "lighting": "neon_electric",
+  "quality": {
+    "resolution": "6k",
+    "detail": "cyberpunk-clutter",
+    "upscale": true
+  },
+  "color": {
+    "palette": "cyberpunk-neon",
+    "grading": "neon-noir-aesthetic"
+  },
+  "negativePrompt": "text, logo, deformed hands"
+}</pre>
+                    </section>
+
+                    <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="mb-3 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Example 3: Minimal Product Shot</h2>
+                        </div>
+                        <p class="text-sm text-gray-700 mb-2">Shows how optional sections can be omitted for clean technical prompts.</p>
+                        <pre class="mono-box">{
+  "subject": "A matte black wireless earbud case",
+  "sceneDescription": "on a soft gray background with subtle reflection",
+  "camera": {
+    "shot": "close_up",
+    "motion": "none",
+    "lens": "macro_distance"
+  },
+  "lighting": "soft",
+  "quality": {
+    "resolution": "4k",
+    "detail": "sharp-focus",
+    "upscale": false
+  },
+  "negativePrompt": "dust, fingerprints, text, watermark"
+}</pre>
+                    </section>
+
+                    <section class="bg-white p-5 rounded-lg shadow-sm border border-gray-100">
+                        <div class="mb-3 border-b pb-2">
+                            <h2 class="text-xl font-semibold text-gray-800">Warnings You May See</h2>
+                        </div>
+                        <div class="warning-box">
+                            <strong>Close-up vs very far distance:</strong> visually contradictory framing.
+                        </div>
+                        <div class="warning-box">
+                            <strong>Soft light vs high contrast grading:</strong> lighting intent can conflict with post-processing.
+                        </div>
+                        <div class="warning-box">
+                            <strong>Minimalist style vs ornate detail:</strong> opposite visual direction.
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2">Warnings are advisory, not blocking. You can still export if the artistic contradiction is intentional.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const schemaData = {
+            styles: ["3d_render", "abstract_art", "acrylic_on_canvas", "aerial_drone_photography", "analog_film", "anime", "anime_manga", "architectural_sketch", "biomechanical_hr_giger", "blueprint", "bokeh", "cel_shaded", "cgi_architecture", "charcoal_sketch", "childrens_book_illustration", "cinematic", "comic_book_style", "concept_art", "cutaway_diagram", "cyberpunk", "dark_fantasy", "digital_art", "digital_painting", "disney_pixar_3d_style", "editorial", "etching", "expressionism", "fantasy", "flat_design", "fresco", "glitch_art", "gothic_art", "gouache", "graffiti_street_art", "hyperrealistic", "illustration", "impressionism", "infographic_style", "ink_drawing", "interior_design_visualization", "isometric_view", "knolling", "logo_design", "long_exposure", "low_poly", "macro_photography", "minimalism", "minimalist", "national_geographic_style", "noir_film_noir", "octane_render", "oil_painting", "pencil_sketch", "photorealistic", "pixel_art", "pointillism", "polaroid", "pop_art", "portrait_photography", "product_mockup", "psychedelic_art", "renaissance_art", "retro", "sci_fi", "steampunk", "storyboard", "street_photography", "studio_ghibli_style", "surrealism", "synthwave_retrowave", "typography_art", "ukiyo_e", "unreal_engine_5_style", "vector_art", "vintage_poster", "voxel_art", "watercolor", "wildlife_photography"],
+            moods: ["ancient", "awe_inspiring", "chaotic", "dystopian", "epic", "futuristic", "grand", "gritty", "heroic", "intimate", "majestic", "minimalist", "orderly", "playful", "provocative", "serious", "sophisticated", "surreal", "tranquil", "utopian"],
+            shots: ["aerial_shot", "birds_eye_view", "close_up", "cowboy_shot", "dutch_angle", "establishing_shot", "extreme_close_up", "extreme_long_shot", "eye_level_shot", "full_shot", "ground_level_shot", "high_angle_shot", "long_shot", "low_angle_shot", "medium_close_up", "medium_shot", "over_the_shoulder_shot", "panoramic_shot", "point_of_view_shot_pov", "profile_shot", "side_view", "tilted_frame", "two_shot", "wide_angle_shot", "worms_eye_view"],
+            motions: ["static", "slight-pan", "slow-push-in", "handheld", "none"],
+            lenses: ["1_point_perspective", "2_point_perspective", "3_point_perspective", "aerial_perspective", "anamorphic_perspective", "curvilinear_perspective", "dramatic_perspective", "fisheye_perspective", "forced_perspective", "isometric", "natural_perspective", "orthographic", "parallel_projection", "telephoto_like", "wide_angle_perspective", "close_up", "extreme_close_up", "extreme_long_distance", "far_distance", "intermediate_distance", "long_distance", "macro_distance", "medium_distance", "mid_range", "panoramic_distance", "ultra_wide_distance", "very_close_up", "very_far_distance"],
+            lightings: ["blue_hour", "bright", "cinematic", "dark", "dramatic", "dull", "eerie", "golden_hour", "harsh", "high_contrast", "low_contrast", "moody", "muted", "natural", "neon_electric", "soft", "somber", "uplifting", "vibrant"],
+            resolutions: ["2k", "4k", "6k", "ambient_occlusion", "anamorphic_lens_flare", "anti_aliasing", "bloom_effect", "caustics", "cinematic_lighting", "depth_of_field_bokeh", "diffuse_reflection", "global_illumination", "high_detail", "high_dynamic_range_hdr", "flat", "motion_blur", "octane_render", "quixel_megascans_texture", "ray_tracing", "realistic", "semi_realistic", "photorealistic", "soft", "soft_shadows", "stylized", "subsurface_scattering", "tessellation", "unreal_engine_5_style", "v_ray_style", "volumetric_lighting"],
+            details: ["anatomic-accuracy", "architectural-structural-detail", "atmospheric-precision", "baroque-ornamentation", "cinematic-grain-detail", "cyberpunk-clutter", "deep-depth-of-field", "extreme-close-up-clarity", "fractal-geometric-detail", "high-fidelity", "highly-defined-edges", "hyper-realistic-textures", "insane-detail-rendering", "intricate-filigree", "low-fidelity", "macro-lens-detail", "masterpiece-quality", "maximalist-clutter", "medium-fidelity", "microscopic-detail", "minimalist-clean-lines", "ornate-complexity", "photorealistic-precision", "pixel-perfect-clarity", "polished-reflective-finish", "raw-authentic-texture", "ray-traced-global-illumination", "schematic-line-work", "shallow-depth-of-field-bokeh", "sharp-focus", "soft-ethereal-detail", "subsurface-scattering", "technical-blueprint-precision", "ultra-high-definition-8k", "volumetric-particle-detail", "weathered-distressed-texture"],
+            palettes: ["acid-green-and-neon", "analogous", "autumn-harvest-warmth", "bioluminescent-glow", "black-and-white-noir", "candy-pastel", "chillwave-aesthetic", "chromatic-aberration-tint", "cold-clinical-blue", "complementary", "cool-tones", "cyberpunk-neon", "deep-forest-greens", "desert-sand-and-gold", "duo-tone", "earthy-tones", "electric-high-contrast", "faded-polaroid", "grayscale", "high-key-bright", "industrial-metallic", "infrared-spectrum", "low-key-dark-moody", "monochrome", "muted-desaturated", "neutral", "oceanic-teal-and-aquamarine", "opal-iridescent", "pastel-dreamscape", "retro-vintage", "royal-gold-and-velvet", "sepia", "soft-natural-light", "split-complementary", "synthwave-gradient", "technicolor-vibrancy", "tetradic-richness", "triadic", "vibrant-saturated", "warm-tones", "washed-out-watercolor"],
+            gradings: ["bleach-bypass", "california-warm-glow", "cinematic-teal-and-orange", "cross-processed", "dark-nordic-mood", "day-for-night", "dramatic-chiaroscuro", "faded-vintage-film", "film-like", "film-noir-monochrome", "golden-hour-warmth", "high-contrast", "high-dynamic-range-hdr", "high-key-exposure", "hollywood-blockbuster", "kodachrome-vintage", "low-contrast-faded", "low-key-exposure", "matinee-saturation", "matte-finish", "muted-earthy-grading", "national-geographic-style", "neon-noir-aesthetic", "overexposed-ethereal", "pastel", "polaroid-instant-film", "retro-70s-saturation", "rich-velvet-tones", "sepia-nostalgia", "silver-gelatin-print", "soft-bloom-diffusion", "technicolor-vivid", "underexposed-moody", "vibrant-commercial", "washed-out-summer"]
+        };
+
+        const groupDocs = [
+            { key: 'styles', title: 'Style Options', hint: 'Defines the main visual art direction.' },
+            { key: 'moods', title: 'Mood Options', hint: 'Defines emotional and narrative tone.' },
+            { key: 'shots', title: 'Camera Shot Options', hint: 'Defines framing and camera position relative to the subject.' },
+            { key: 'motions', title: 'Camera Motion Options', hint: 'Defines movement feel of the virtual camera.' },
+            { key: 'lenses', title: 'Lens / Perspective Options', hint: 'Defines geometric perspective and viewing distance behavior.' },
+            { key: 'lightings', title: 'Lighting Options', hint: 'Defines illumination quality, contrast, and visual atmosphere.' },
+            { key: 'resolutions', title: 'Quality Resolution Options', hint: 'Mix of resolution levels and rendering quality modifiers.' },
+            { key: 'details', title: 'Quality Detail Options', hint: 'Defines complexity, texture fidelity, and sharpness precision.' },
+            { key: 'palettes', title: 'Color Palette Options', hint: 'Defines base color harmony and tonal family.' },
+            { key: 'gradings', title: 'Color Grading Options', hint: 'Defines final post-processing and cinematic treatment.' }
+        ];
+
+        function humanize(value) {
+            return value.replace(/[_-]/g, ' ').replace(/\b\w/g, m => m.toUpperCase());
+        }
+
+        function explainOption(groupKey, value) {
+            const label = humanize(value);
+            const prefix = {
+                styles: 'Use when you want the image rendered in',
+                moods: 'Use when you want the emotional feeling to be',
+                shots: 'Use when you want framing similar to',
+                motions: 'Use when you want camera movement that feels',
+                lenses: 'Use when you want perspective or distance behavior like',
+                lightings: 'Use when you want lighting to feel',
+                resolutions: 'Use when you want output quality behavior such as',
+                details: 'Use when you want detail characteristics such as',
+                palettes: 'Use when you want a color harmony based on',
+                gradings: 'Use when you want post-processing mood similar to'
+            }[groupKey] || 'Use when you want';
+
+            return `${prefix} ${label}.`;
+        }
+
+        function renderCatalog(filterText = '') {
+            const normalized = filterText.trim().toLowerCase();
+            const wrap = document.getElementById('option-catalog');
+            wrap.innerHTML = '';
+
+            groupDocs.forEach(group => {
+                const values = schemaData[group.key].filter(v => {
+                    if (!normalized) return true;
+                    return v.toLowerCase().includes(normalized) || humanize(v).toLowerCase().includes(normalized);
+                });
+
+                if (values.length === 0) return;
+
+                const block = document.createElement('details');
+                block.className = 'border border-gray-200 rounded-md bg-gray-50';
+                block.open = normalized.length > 0;
+
+                const summary = document.createElement('summary');
+                summary.className = 'cursor-pointer px-3 py-2 font-semibold text-sm text-gray-800';
+                summary.textContent = `${group.title} (${values.length})`;
+
+                const hint = document.createElement('p');
+                hint.className = 'px-3 pb-1 text-xs text-gray-600';
+                hint.textContent = group.hint;
+
+                const list = document.createElement('div');
+                list.className = 'px-3 pb-3 space-y-2';
+
+                values.forEach(v => {
+                    const row = document.createElement('div');
+                    row.className = 'bg-white border border-gray-200 rounded p-2';
+                    row.innerHTML = `<p class="text-xs font-mono text-gray-900">${v}</p><p class="text-xs text-gray-700 mt-1">${explainOption(group.key, v)}</p>`;
+                    list.appendChild(row);
+                });
+
+                block.appendChild(summary);
+                block.appendChild(hint);
+                block.appendChild(list);
+                wrap.appendChild(block);
+            });
+
+            const extra = document.createElement('details');
+            extra.className = 'border border-gray-200 rounded-md bg-gray-50';
+            extra.open = normalized.length > 0;
+            extra.innerHTML = `
+                <summary class="cursor-pointer px-3 py-2 font-semibold text-sm text-gray-800">Composition Boolean Options (3)</summary>
+                <p class="px-3 pb-1 text-xs text-gray-600">These are toggle checkboxes, not dropdown values.</p>
+                <div class="px-3 pb-3 space-y-2">
+                    <div class="bg-white border border-gray-200 rounded p-2"><p class="text-xs font-mono text-gray-900">ruleOfThirds</p><p class="text-xs text-gray-700 mt-1">When enabled, asks the model to place visual focus along thirds-grid intersections for balanced framing.</p></div>
+                    <div class="bg-white border border-gray-200 rounded p-2"><p class="text-xs font-mono text-gray-900">leadingLines</p><p class="text-xs text-gray-700 mt-1">When enabled, asks the model to use lines or shapes that guide viewer attention toward the subject.</p></div>
+                    <div class="bg-white border border-gray-200 rounded p-2"><p class="text-xs font-mono text-gray-900">depth</p><p class="text-xs text-gray-700 mt-1">When enabled, asks for foreground/midground/background layering for stronger dimensional feel.</p></div>
+                </div>
+            `;
+            wrap.appendChild(extra);
+        }
+
+        document.getElementById('option-filter').addEventListener('input', (e) => renderCatalog(e.target.value));
+        renderCatalog();
+    </script>
+</body>
+</html>
