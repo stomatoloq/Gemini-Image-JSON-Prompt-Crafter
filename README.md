@@ -1,22 +1,18 @@
 # 🌌 Gemini JSON Prompt Crafter
 
-<div align="center">
-
 **The Ultimate Offline GUI for Structured AI Image Generation**
 
 [![HTML5](https://img.shields.io/badge/HTML5-Strict-orange.svg)]()
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-yellow.svg)]()
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue.svg)]()
 [![Offline First](https://img.shields.io/badge/Offline-100%25-success.svg)]()
-[![Single File App](https://img.shields.io/badge/Single%20File-index.html-purple)](index.html)
-[![JSON Output](https://img.shields.io/badge/Output-Structured%20JSON-orange)](#json-output-is-the-core-feature)
+[![Single File App](https://img.shields.io/badge/Single%20File-index.html-purple)]()
+[![JSON Output](https://img.shields.io/badge/Output-Structured%20JSON-orange)]()
 
 *Transform messy text prompts into deterministic, machine-readable JSON payloads ready for automated AI pipelines.*
 Create high-quality **Gemini image prompts** with a clean UI and export them as **strict, structured JSON**.
 
 This project is a privacy-first, browser-only prompt builder for creators, product teams, and prompt engineers who want reproducible, editable, and shareable image prompt configurations.
-</div>
-
 
 ## Interface
 <img src="interface.png" width="100%">
