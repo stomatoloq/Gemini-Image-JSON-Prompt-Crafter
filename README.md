@@ -1,21 +1,15 @@
-# Gemini Image JSON Prompt Crafter
+# 🌌 Gemini JSON Prompt Crafter
 
 <div align="center">
 
-# 🌌 Gemini JSON Prompt Crafter
-
 **The Ultimate Offline GUI for Structured AI Image Generation**
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![HTML5](https://img.shields.io/badge/HTML5-Strict-orange.svg)]()
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-Vanilla-yellow.svg)]()
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue.svg)]()
 [![Offline First](https://img.shields.io/badge/Offline-100%25-success.svg)]()
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
 [![Single File App](https://img.shields.io/badge/Single%20File-index.html-purple)](index.html)
 [![JSON Output](https://img.shields.io/badge/Output-Structured%20JSON-orange)](#json-output-is-the-core-feature)
-
-[Features](#-key-features) • [Why JSON?](#-why-json-the-killer-feature) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
 *Transform messy text prompts into deterministic, machine-readable JSON payloads ready for automated AI pipelines.*
 Create high-quality **Gemini image prompts** with a clean UI and export them as **strict, structured JSON**.
@@ -26,7 +20,6 @@ This project is a privacy-first, browser-only prompt builder for creators, produ
 
 ## Interface
 <img src="interface.png" width="100%">
-
 
 ## Why This Project
 
@@ -182,13 +175,12 @@ Contributions are welcome.
 
 ## License
 
-MIT.
-
-## Star This Project
-
-If this tool saves you time, please give it a star. It helps the project reach more creators and keeps open-source AI tooling thriving.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <div align="center">
-  <b>If you find this tool helpful in your AI workflow, please consider giving it a ⭐!</b><br>
-  <i>It helps the project grow and reaches more developers.</i>
+## Star This Project
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
+
+If you find this tool helpful in your AI workflow and if this tool saves you time, please consider giving it a ⭐! It helps the project reach more creators and keeps open-source AI tooling thriving.
 </div>
